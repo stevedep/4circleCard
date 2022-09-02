@@ -31,14 +31,22 @@ import DataViewObjectsParser = dataViewObjectsParser.DataViewObjectsParser;
 
 export class VisualSettings extends DataViewObjectsParser {
     public dataPoint: dataPointSettings = new dataPointSettings();
-    public font: allSettings = new allSettings();
+    public font: fontSettings = new fontSettings();
+    public layout: layoutSettings = new layoutSettings();
       }
 
 
-export class allSettings {
-    public PW: number = 26;
-    public noemer: number = 7;
+export class fontSettings {
+    public PW: number = 20;    
 }
+
+export class layoutSettings {
+    public margin: number = 25;
+    public angleOffset: number = 20;
+    public transformB: number = -0.5;
+
+}
+
 
 
     export class dataPointSettings {

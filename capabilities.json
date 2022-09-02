@@ -1,4 +1,4 @@
-{
+﻿{
   "dataRoles": [
     {
       "displayName": "Category Data",
@@ -21,10 +21,29 @@
           "type": {
             "numeric": true
           }
+        }
+      }
+    },
+    "layout": {
+      "displayName": "Layout",
+      "properties": {
+        "margin": {
+          "displayName": "Margin",
+          "description": "Margin",
+          "type": {
+            "numeric": true
+          }
         },
-        "noemer": {
-          "displayName": "noemer",
-          "description": "noemer",
+        "angleOffset": {
+          "displayName": "AngleOffset",
+          "description": "AngleOffset",
+          "type": {
+            "numeric": true
+          }
+        },
+        "transformB": {
+          "displayName": "Transform B",
+          "description": "b[−5,−0.001]",
           "type": {
             "numeric": true
           }
@@ -46,11 +65,11 @@
         }
       }
     },
-    "colorSelector2": {
+    "AngleSelector": {
       "displayName": "Angles",
       "properties": {
-        "noemer": {
-          "displayName": "noemer",
+        "Angle": {
+          "displayName": "Angle",
           "type": { "numeric": true }
         }
       }
