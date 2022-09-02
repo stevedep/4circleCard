@@ -1,0 +1,17 @@
+{
+    "version": "1.0.0",
+    "author": {"name":"stevedep","email":"stevedep@dded.nl"},
+    "resources": [
+        {
+            "resourceId": "rId0",
+            "sourceType": 5,
+            "file": "resources/circleCard89937ABCC5E04C55BCD36C1FA960B10E.pbiviz.json"
+        }
+    ],
+    "visual": {"name":"circleCard","displayName":"CircleCard","guid":"circleCard89937ABCC5E04C55BCD36C1FA960B10E","visualClassName":"Visual","version":"1.0.0","description":"CC","supportUrl":"www.google.com","gitHubUrl":"www.github.com"},
+    "metadata": {
+        "pbivizjson": {
+            "resourceId": "rId0"
+        }
+    }  
+}

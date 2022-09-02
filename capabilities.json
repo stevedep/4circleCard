@@ -1,0 +1,83 @@
+{
+  "dataRoles": [
+    {
+      "displayName": "Category Data",
+      "name": "category",
+      "kind": "Grouping"
+    },
+    {
+      "displayName": "Measure Data",
+      "name": "measure",
+      "kind": "Measure"
+    }
+  ],
+  "objects": {
+    "font": {
+      "displayName": "Legend",
+      "properties": {
+        "PW": {
+          "displayName": "Text Proportion of Width",
+          "description": "Proportion of Width",
+          "type": {
+            "numeric": true
+          }
+        },
+        "noemer": {
+          "displayName": "noemer",
+          "description": "noemer",
+          "type": {
+            "numeric": true
+          }
+        }
+      }
+    },
+    "colorSelector": {
+      "displayName": "Data Colors",
+      "properties": {
+        "fill": {
+          "displayName": "Color",
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "colorSelector2": {
+      "displayName": "Angles",
+      "properties": {
+        "noemer": {
+          "displayName": "noemer",
+          "type": { "numeric": true }
+        }
+      }
+    }
+  },
+    "dataViewMappings": [
+      {
+        "categorical": {
+          "categories": {
+            "for": {
+              "in": "category"
+            },
+            "dataReductionAlgorithm": {
+              "top": {}
+            }
+          },
+          "values": {
+            "select": [
+              {
+                "bind": {
+                  "to": "measure"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "supportsHighlight": false
+  }
