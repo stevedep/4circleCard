@@ -33,34 +33,38 @@ export class VisualSettings extends DataViewObjectsParser {
     public dataPoint: dataPointSettings = new dataPointSettings();
     public font: fontSettings = new fontSettings();
     public layout: layoutSettings = new layoutSettings();
-      }
-
+    public circleParameters: circlelayoutSettings = new circlelayoutSettings();
+ 
+}
 
 export class fontSettings {
-    public PW: number = 20;    
+    public PW: number = 37;
+    public fill: string = "#FFFFFF"
 }
+
 
 export class layoutSettings {
-    public margin: number = 25;
-    public angleOffset: number = 20;
-    public transformB: number = -0.5;
-
+    public margin: number = 35;
+    public angle: number = 20;   
 }
 
+export class circlelayoutSettings {
+    public minimalValue: number = 2;
+    public untilPoint: number = 6;
+}
 
-
-    export class dataPointSettings {
-     // Default color
-      public defaultColor: string = "";
-     // Show all
-      public showAllDataPoints: boolean = true;
-     // Fill
-      public fill: string = "";
-     // Color saturation
-      public fillRule: string = "";
-     // Text Size
-      public fontSize: number = 12;
-     }
+export class dataPointSettings {
+    // Default color
+    public defaultColor: string = "";
+    // Show all
+    public showAllDataPoints: boolean = true;
+    // Fill
+    public fill: string = "";
+    // Color saturation
+    public fillRule: string = "";
+    // Text Size
+    public fontSize: number = 12;
+    }
 
 
 

@@ -13,13 +13,23 @@
   ],
   "objects": {
     "font": {
-      "displayName": "Legend",
+      "displayName": "Text",
       "properties": {
         "PW": {
           "displayName": "Text Proportion of Width",
           "description": "Proportion of Width",
           "type": {
             "numeric": true
+          }
+        },
+        "fill": {
+          "displayName": "Color",
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
           }
         }
       }
@@ -34,16 +44,28 @@
             "numeric": true
           }
         },
-        "angleOffset": {
+        "angle": {
           "displayName": "AngleOffset",
           "description": "AngleOffset",
           "type": {
             "numeric": true
           }
+        }
+      }
+    },
+    "circleParameters": {
+      "displayName": "Circle Parameters",
+      "properties": {
+        "minimalValue": {
+          "displayName": "Minimal Value",
+          "description": "Minimal Value",
+          "type": {
+            "numeric": true
+          }
         },
-        "transformB": {
-          "displayName": "Transform B",
-          "description": "b[−5,−0.001]",
+        "untilPoint": {
+          "displayName": "Until Point",
+          "description": "Until Point",
           "type": {
             "numeric": true
           }
@@ -64,39 +86,43 @@
           }
         }
       }
-    },
+    }
+
+        
+     ,
     "AngleSelector": {
       "displayName": "Angles",
       "properties": {
-        "Angle": {
+        "angle": {
           "displayName": "Angle",
           "type": { "numeric": true }
         }
       }
     }
   },
-    "dataViewMappings": [
-      {
-        "categorical": {
-          "categories": {
-            "for": {
-              "in": "category"
-            },
-            "dataReductionAlgorithm": {
-              "top": {}
-            }
-          },
-          "values": {
-            "select": [
-              {
-                "bind": {
-                  "to": "measure"
-                }
+      "dataViewMappings": [
+        {
+          "categorical": {
+            "categories": {
+              "for": {
+                "in": "category"
+              },
+              "dataReductionAlgorithm": {
+                "top": {}
               }
-            ]
+            },
+            "values": {
+              "select": [
+                {
+                  "bind": {
+                    "to": "measure"
+                  }
+                }
+              ]
+            }
           }
         }
-      }
-    ],
-    "supportsHighlight": false
-  }
+      ],
+  "supportsHighlight": false
+
+    }

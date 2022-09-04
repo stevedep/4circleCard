@@ -78,7 +78,7 @@ interface Selector { };
 
 interface selObject {
     colorSelector?: { fill: { solid: { color: string; } } }
-    AngleSelector?: { Angle: number; }
+    AngleSelector?: { angle: number; }
 };
 
 interface cDataPoint {
@@ -125,9 +125,19 @@ export class Visual implements IVisual {
         this.selectionManager = this.host.createSelectionManager(); // added for selections        
     }
 
-    //https://math.stackexchange.com/questions/158487/function-that-magnifies-small-changes-and-compresses-large-changes
-    transf(x: number, b:number) {
-        return  (1 / ( Math.log((b-1)/b))) * Math.log( (b-x)/b)   ;
+    
+    transf(x: number) {
+        let diff = (this.settings.circleParameters.untilPoint - this.settings.circleParameters.minimalValue);
+        let difffraction = diff / this.settings.circleParameters.untilPoint;
+        let addition = (x * 100) * difffraction;
+
+        let returnvalue = (this.settings.circleParameters.minimalValue + addition);
+        if (x < (this.settings.circleParameters.untilPoint/100)) {
+            console.log(returnvalue/100)
+            return returnvalue/100;
+        } else {
+            return x;
+        }
     }
 
     public update(options: VisualUpdateOptions) {
@@ -145,7 +155,7 @@ export class Visual implements IVisual {
         let height: number = options.viewport.height;
         this.svg.attr("width", width);
         this.svg.attr("height", height);
-
+        //debugger;
         //add index positions to the values
         let DV = options.dataViews
         let category = DV[0].categorical; //.categories[0];
@@ -187,11 +197,12 @@ export class Visual implements IVisual {
         for (let i = 1; i < this.vDataPoints.length; i++) { //first angle is 0
             let l = 360 / (this.vDataPoints.length - 1);
             let portion = l * i;
-            let angp = 360 - portion + this.settings.layout.angleOffset;
-            let ang = this.vDataPoints[i].selObject ? this.vDataPoints[i].selObject.AngleSelector ? this.vDataPoints[i].selObject.AngleSelector.Angle: angp : angp; 
-            this.vDataPoints[i].angle = ang;
+            let angp = 360 - portion + this.settings.layout.angle;
+            let ang = this.vDataPoints[i].selObject ? this.vDataPoints[i].selObject.AngleSelector ? this.vDataPoints[i].selObject.AngleSelector.angle: angp : angp; 
+            //console.log(ang.toPrecision(0));
+            this.vDataPoints[i].angle = Math.round(ang);
         }
-
+       
 //Set the Colours
         this.vDataPoints = this.vDataPoints.sort(function (a, b) {
             if (a.title < b.title) return -1;
@@ -214,10 +225,10 @@ export class Visual implements IVisual {
         for (let i = 1; i < this.vDataPoints.length; i++) { // start with 1 because the first circle has no angle.
             this.vDataPoints[i].x =
                 width / 2 +
-            ((<number>this.transf(<number>this.vDataPoints[0].value, this.settings.layout.transformB) * cheight) / 2) * Math.sin(<number>this.vDataPoints[i].angle * (Math.PI / 180)); //*  Math.cos(90));
+            ((<number>this.transf(<number>this.vDataPoints[0].value) * cheight) / 2) * Math.sin(<number>this.vDataPoints[i].angle * (Math.PI / 180)); //*  Math.cos(90));
             this.vDataPoints[i].y =
                 height / 2 +
-            ((<number>this.transf(<number>this.vDataPoints[0].value, this.settings.layout.transformB) * cheight) / 2) * Math.cos(<number>this.vDataPoints[i].angle * (Math.PI / 180)); //*  Math.cos(90));
+            ((<number>this.transf(<number>this.vDataPoints[0].value) * cheight) / 2) * Math.cos(<number>this.vDataPoints[i].angle * (Math.PI / 180)); //*  Math.cos(90));
         }
 
         this.svg
@@ -235,7 +246,7 @@ export class Visual implements IVisual {
             .attr("cx", (d: cDataPoint) => String(d.x))
             .attr("cy", (d: cDataPoint) => String(d.y))
             .attr("r", (d: cDataPoint) => {
-                let val = (((<number>this.transf(<number>d.value, this.settings.layout.transformB) * cheight) / 2));//height)) * 0.3
+                let val = (((<number>this.transf(<number>d.value) * cheight) / 2));//height)) * 0.3
                 //let min = (((0.08) * height)) * 0.3 * 2
                 //let r = val < min ? min : val
                 return val
@@ -266,6 +277,7 @@ export class Visual implements IVisual {
 
         this.svg.selectAll('.circ').exit().remove();
 
+        console.log(this.settings.font.fill)
 // textlegend
         this.svg
             .selectAll('.txtl').remove();
@@ -281,7 +293,7 @@ export class Visual implements IVisual {
             .attr("x", (d: cDataPoint) => (width * 0.9 / l * d.i) + (width * 0.07))
             .attr("y", (d) => height - height * 0.04)
             .attr("text-anchor", "left").attr("font-size", width / 1000 * this.settings.font.PW)
-            .attr("fill", "white")
+            .attr("fill", String(<Fill>this.settings.font.fill))
 
             .text((d: cDataPoint) => d.title)
             //.style("fill", "black") //(d) => d[3])
@@ -326,7 +338,7 @@ export class Visual implements IVisual {
                 let r = val < min ? min : val
                 return r / 2.2    })
 
-            .attr("fill", "white")
+            .attr("fill", this.settings.font.fill)
             .text((d: cDataPoint) => {
                 let r = <number>d.value * 100;                
                 const decimalStr = r.toString().split('.')[1];
@@ -366,13 +378,12 @@ export class Visual implements IVisual {
      *
      */
     public enumerateObjectInstances(options: EnumerateVisualObjectInstancesOptions): VisualObjectInstance[] | VisualObjectInstanceEnumerationObject {
-        //return VisualSettings.enumerateObjectInstances(this.settings || VisualSettings.getDefault(), options);
+       // console.log(VisualSettings.enumerateObjectInstances(this.settings || VisualSettings.getDefault(), options));
 
         
         let objectName = options.objectName;
         let objectEnumeration: VisualObjectInstance[] = [];
-        let objectEnumeration2: VisualObjectInstance[] = [];
-
+        
         //console.log(objectName);
         switch (objectName) {
             case 'colorSelector':
@@ -390,32 +401,96 @@ export class Visual implements IVisual {
                         propertyInstanceKind: {
                             fill: VisualEnumerationInstanceKinds.ConstantOrRule // allows conditional (rule) formatting
                         },
-                        altConstantValueSelector:  this.vDataPoints[i].selectionId.getSelector(), // MOET HIER WEL ECHT DE GETSELECTOR GEBRUIKEN!! // this.vDataPoints[i].selector,//barDataPoint[4],  //needed to get all selections
+                        altConstantValueSelector: this.vDataPoints[i].selectionId.getSelector(), // MOET HIER WEL ECHT DE GETSELECTOR GEBRUIKEN!! // this.vDataPoints[i].selector,//barDataPoint[4],  //needed to get all selections
                         selector: dataViewWildcard.createDataViewWildcardSelector(dataViewWildcard.DataViewWildcardMatchingOption.InstancesAndTotals)
                     });
                 }
-                return objectEnumeration;
+                break;            
             case 'AngleSelector':
                 for (let i = 0; i < this.vDataPoints.length; i++) {//(let barDataPoint of this.map2) {
-                    objectEnumeration2.push({
+                    objectEnumeration.push({
                         objectName: objectName,
                         displayName: String(this.vDataPoints[i].title), //String(barDataPoint[1]),
                         properties: {
-                            Angle: String(this.vDataPoints[i].angle)//String(barDataPoint[3])
-                                },
-                        
+                            angle: String(this.vDataPoints[i].angle)//String(barDataPoint[3])
+                        },
+
                         altConstantValueSelector: this.vDataPoints[i].selectionId.getSelector(),  // MOET HIER WEL ECHT DE GETSELECTOR GEBRUIKEN!!  //barDataPoint[4],  //needed to get all selections
                         selector: { id: String(this.vDataPoints[i].title) }//dataViewWildcard.createDataViewWildcardSelector(dataViewWildcard.DataViewWildcardMatchingOption.InstancesAndTotals)
                     });
-                }              
-                return objectEnumeration2;
+                }
+                break;
 
-            case 'font':
-                return( VisualSettings.enumerateObjectInstances(VisualSettings.getDefault(), options));
+            case 'font': // console.log(VisualSettings.enumerateObjectInstances(VisualSettings.getDefault(), options));
+                objectEnumeration.push(
+                    {
+                        "objectName": "font",
+                        "selector": null,
+                        "properties": {
+                            "PW": this.settings.font.PW
+                        }
+                    }
+                );
+                objectEnumeration.push({
+                    objectName: objectName,
+                    displayName: "Font Colour.", //String(barDataPoint[1]),
+                    properties: {
+                        fill: {
+                            solid: {
+                                color: this.settings.font.fill//"White"//String(barDataPoint[3])
+                            }
+                        }
+                    },
+                    selector: null //dataViewWildcard.createDataViewWildcardSelector(dataViewWildcard.DataViewWildcardMatchingOption.InstancesAndTotals)
+                 })
+
+                break;
 
             case 'layout':
-                return (VisualSettings.enumerateObjectInstances(VisualSettings.getDefault(), options));
-        }  
+                // console.log(VisualSettings.enumerateObjectInstances(VisualSettings.getDefault(), options)); // use this to copy the structure, so you can change below
+                objectEnumeration.push(
+
+                    {
+                        "objectName": "layout",
+                        "selector": null,
+                        "properties": {
+                            "margin": this.settings.layout.margin,
+                            "angle": this.settings.layout.angle
+                        }
+                        ,
+                        validValues: {
+                            angle: {
+                                numberRange: {
+                                    min: 0,
+                                    max: 360
+                                }
+                            }
+                        },
+                    }
+                )
+                break;
+
+            //(VisualSettings.enumerateObjectInstances(VisualSettings.getDefault(), options));
+            case 'circleParameters':
+                // console.log(VisualSettings.enumerateObjectInstances(VisualSettings.getDefault(), options));
+                objectEnumeration.push(
+                    {
+                        "objectName": "circleParameters",
+                        "selector": null,
+                        "properties": {
+                            "minimalValue": this.settings.circleParameters.minimalValue,
+                            "untilPoint": this.settings.circleParameters.untilPoint
+                        },
+                        propertyInstanceKind: {
+                            minimalValue: VisualEnumerationInstanceKinds.ConstantOrRule, // allows conditional (rule) formatting
+                            untilPoint: VisualEnumerationInstanceKinds.ConstantOrRule // allows conditional (rule) formatting
+                        },
+                    })
+                break;
+                
+        }
+        return objectEnumeration;
+
     }
 
 
