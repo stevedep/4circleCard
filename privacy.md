@@ -8,7 +8,7 @@ This policy on privacy apply to the data processed by the KPI CircleCard visual.
 
 Your use of the KPI CircleCard visual is subject to the term and conditions of this
 
-Policy. Please read this Policy before using Custom Visuals. 
+Policy. Please read this Policy before using the KPI CircleCard visual. 
 
 ### 1.  Use of Data:
 
