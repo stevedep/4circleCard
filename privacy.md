@@ -10,7 +10,7 @@ Your use of the Custom Visuals is subject to the term and conditions of this
 
 Policy. Please read this Policy before using Custom Visuals. 
 
-1.  Use of Data:
+### 1.  Use of Data:
 
 The KPI CircleCard visual uses information that is provided through the
 
@@ -24,19 +24,19 @@ use your data for any other purpose than rendering the interactive
 
 visualizations in your Microsoft Power BI instance.
 
-2.  Data transferred/shared with others:
+### 2.  Data transferred/shared with others:
 
 Your data is never transferred/shared with other parties.
 
-3.  Storage and Protection of Personal information
+### 3.  Storage and Protection of Personal information
 
 The KPI CircleCard visual does not collect any personal information nor does it store it.
 
-4.  General terms and conditions
+### 4.  General terms and conditions
 
 You are liable for the appropriate use of the KPI CircleCard visual.
 
-5.  Updates of this Policy
+### 5.  Updates of this Policy
 
 We may modify or update this Policy either due to changes in legislation or in
 
@@ -50,7 +50,7 @@ top of this Policy. Therefore you have to visit this page regularly as these
 
 changes may affect You as a visitor and/or a user of our Website.
 
-6.  Our Contact information
+### 6.  Our Contact information
 
 Should You have any questions about this Policy, the privacy aspects of our
 
