@@ -4,7 +4,7 @@
 
 Effective date of this Privacy Policy: September 4, 2022
 
-This policy on privacy apply to the data processed by Custom Visuals.
+This policy on privacy apply to the data processed by the KPI CircleCard visual.
 
 Your use of the Custom Visuals is subject to the term and conditions of this
 
